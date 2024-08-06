@@ -20,19 +20,28 @@ export class RegisterComponent {
     username: ['', Validators.required],
     email: ['', Validators.required],
     password: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
   });
   errorMessage: string | null = null;
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     const rawForm = this.form.getRawValue();
-    this.authService
-      .register(rawForm.email, rawForm.username, rawForm.password)
-      .subscribe((result) => {
-        if (result.error) {
-          this.errorMessage = result.error.message;
-        } else {
-          this.router.navigateByUrl('/');
-        }
-      });
+    try {
+      await this.authService.register(
+        rawForm.email,
+        rawForm.password,
+        rawForm.firstName,
+        rawForm.lastName,
+        rawForm.username
+      );
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      if (error instanceof Error) {
+        this.errorMessage = error.message;
+      } else {
+        this.errorMessage = 'An unknown error occurred';
+      }
+    }
   }
 }
