@@ -26,6 +26,7 @@
         <th class="py-2 px-4 border-b">Description</th>
         <th class="py-2 px-4 border-b">Amount</th>
         <th class="py-2 px-4 border-b">Category</th>
+        <th class="py-2 px-4 border-b">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,9 @@
         <td class="py-2 px-4 border-b">{{ transaction.Description }}</td>
         <td class="py-2 px-4 border-b">{{ transaction.Amount }}</td>
         <td class="py-2 px-4 border-b">{{ transaction.CategoryId }}</td>
+        <td class="py-2 px-4 border-b">
+          <button (click)="deleteTransaction(transaction)">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>

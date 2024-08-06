@@ -58,4 +58,13 @@ export class SupabaseService {
       .single();
     return { data, error };
   }
+
+  async deleteTransaction(transactionId: string): Promise<{ data: any; error: any }> {
+    const { data, error } = await this.supabase
+      .from('Transactions')
+      .delete()
+      .eq('id', transactionId)
+      .single();
+    return { data, error };
+  }
 }

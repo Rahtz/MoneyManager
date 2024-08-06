@@ -4,6 +4,14 @@ import { AuthService } from '../auth.service';
 import { SupabaseService } from '../supabase.service';
 import { FormsModule } from '@angular/forms';
 
+interface Transaction {
+  id: string;
+  amount: number;
+  date: string;
+  description: string;
+  categoryid: number;
+}
+
 interface User {
   email: string;
   username: string;
@@ -26,6 +34,8 @@ export class TransactionsComponent implements OnInit {
     description: '',
     categoryid: 0,
   };
+
+  editingTransaction = null;
 
   async ngOnInit(): Promise<void> {
     const user = this.authService.currentUser() as User; // Cast the user to the User interface
@@ -72,6 +82,18 @@ export class TransactionsComponent implements OnInit {
       }
     } else {
       console.error('User ID is missing or not a string');
+    }
+  }
+
+  async deleteTransaction(transaction: Transaction): Promise<void> {
+    const confirmed = window.confirm('Are you sure you want to delete this transaction?');
+    if (confirmed) {
+      const { error } = await this.supabaseService.deleteTransaction(transaction.id);
+      if (error) {
+        console.error('Error deleting transaction:', error);
+      } else {
+        this.transactions = this.transactions.filter(t => t.id !== transaction.id);
+      }
     }
   }
 }
