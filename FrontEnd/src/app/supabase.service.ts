@@ -22,10 +22,32 @@ export class SupabaseService {
   }
 
   async getTransactions(userId: string): Promise<{ data: any[]; error: any }> {
-    const { data, error } = await this.supabase
-      .from('Transactions')
-      .select('*')
-      .eq('userId', userId);
-    return { data: data ?? [], error };
+    let allData: any[] = [];
+    let from = 0;
+    const limit = 1000;
+    let error = null;
+
+    while (true) {
+      const { data, error: pageError } = await this.supabase
+        .from('Transactions')
+        .select('*')
+        .eq('userId', userId)
+        .order('TransactionDate', { ascending: false })
+        .range(from, from + limit - 1);
+
+      if (pageError) {
+        error = pageError;
+        break;
+      }
+
+      if (data && data.length > 0) {
+        allData = allData.concat(data);
+        from += limit;
+      } else {
+        break;
+      }
+    }
+
+    return { data: allData, error };
   }
 }
