@@ -1,8 +1,5 @@
-@if (authService.currentUser()) {
-<div>
-  {{ authService.currentUser()?.username }}
-  <span (click)="logout()">Logout</span>
+<div *ngIf="authService.currentUser()">
+  <app-navbar></app-navbar>
 </div>
-}
 
 <router-outlet></router-outlet>

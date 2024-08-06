@@ -1,0 +1,9 @@
+<nav class="bg-white shadow-md p-4 flex justify-between items-center">
+  <div class="text-xl font-bold">
+    <a routerLink="/">MyApp</a>
+  </div>
+  <div class="flex items-center">
+    <span class="mr-4">{{ authService.currentUser()?.username }}</span>
+    <span class="text-red-500 cursor-pointer" (click)="logout()">Logout</span>
+  </div>
+</nav>
