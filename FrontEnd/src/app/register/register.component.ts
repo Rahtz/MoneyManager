@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './register.component.html',
   standalone: true,
   imports: [ReactiveFormsModule,
-    CommonModule],
+    CommonModule, RouterOutlet, RouterLink],
 })
 export class RegisterComponent {
   fb = inject(FormBuilder);

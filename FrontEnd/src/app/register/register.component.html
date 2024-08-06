@@ -1,11 +1,62 @@
-<div *ngIf="errorMessage">{{ errorMessage }}</div>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h1 class="text-4xl pb-4">Sign Up</h1>
+    <h2 class="pb-4">Please enter your details</h2>
+    <div *ngIf="errorMessage" class="text-red-500 mb-4">{{ errorMessage }}</div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <input type="text" formControlName="username" name="username" placeholder="Enter your username" required />
-  <input type="email" formControlName="email" name="email" placeholder="Enter your email" required />
-  <input type="password" formControlName="password" name="password" placeholder="Enter your password" required />
-  <input type="text" formControlName="firstName" name="firstName" placeholder="Enter your first name" required />
-  <input type="text" formControlName="lastName" name="lastName" placeholder="Enter your last name" required />
-  <button type="submit">Register</button>
-</form>
-<div *ngIf="errorMessage">{{ errorMessage }}</div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <input
+        type="text"
+        formControlName="username"
+        name="username"
+        placeholder="Enter your username"
+        required
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <input
+        type="email"
+        formControlName="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <input
+        type="password"
+        formControlName="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        formControlName="firstName"
+        name="firstName"
+        placeholder="Enter your first name"
+        required
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <input
+        type="text"
+        formControlName="lastName"
+        name="lastName"
+        placeholder="Enter your last name"
+        required
+        class="w-full p-2 border border-gray-300 rounded"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+      >
+        Register
+      </button>
+
+      <div>
+        <a>Already have an account? <span routerLink="/" class="text-blue-500 hover:underline hover:cursor-pointer">Login</span></a>
+      </div>
+    </form>
+
+    <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
+  </div>
+</div>
