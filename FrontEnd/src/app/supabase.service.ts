@@ -50,4 +50,12 @@ export class SupabaseService {
 
     return { data: allData, error };
   }
+
+  async createTransaction(userId: string, TransactionDate: string, Description: string, Amount: number, CategoryId: number): Promise<{ data: any; error: any }> {
+    const { data, error } = await this.supabase
+      .from('Transactions')
+      .insert([{ userId, TransactionDate, Description, Amount, CategoryId }])
+      .single();
+    return { data, error };
+  }
 }

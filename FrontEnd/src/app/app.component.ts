@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, NavbarComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, NavbarComponent, TransactionsComponent, FormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })

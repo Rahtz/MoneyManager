@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { SupabaseService } from '../supabase.service';
+import { FormsModule } from '@angular/forms';
 
 interface User {
   email: string;
@@ -12,13 +13,19 @@ interface User {
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './transactions.component.html',
 })
 export class TransactionsComponent implements OnInit {
   authService = inject(AuthService);
   supabaseService = inject(SupabaseService);
   transactions: any[] = [];
+  newTransaction = {
+    amount: 0,
+    date: '',
+    description: '',
+    categoryid: 0,
+  };
 
   async ngOnInit(): Promise<void> {
     const user = this.authService.currentUser() as User; // Cast the user to the User interface
@@ -46,5 +53,25 @@ export class TransactionsComponent implements OnInit {
       return null;
     }
     return data?.id || null;
+  }
+
+  async createTransaction(): Promise<void> {
+    const user = this.authService.currentUser() as User;
+    if (user && typeof user.id === 'string') {
+      const userId = await this.getUserIdFromAuthId(user.id);
+      if (userId) {
+        const { data, error } = await this.supabaseService.createTransaction(userId, this.newTransaction.date, this.newTransaction.description, this.newTransaction.amount, this.newTransaction.categoryid);
+        if (error) {
+          console.error('Error creating transaction:', error);
+        } else {
+          this.transactions.push(data);
+          this.newTransaction = { amount: 0, date: '', description: '', categoryid: 0 }; // Reset form
+        }
+      } else {
+        console.error('User ID not found in users table');
+      }
+    } else {
+      console.error('User ID is missing or not a string');
+    }
   }
 }

@@ -1,3 +1,22 @@
+<div>
+  <h2>Create Transaction</h2>
+  <form (ngSubmit)="createTransaction()">
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" [(ngModel)]="newTransaction.amount" name="amount" required>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" [(ngModel)]="newTransaction.date" name="date" required>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" [(ngModel)]="newTransaction.description" name="description">
+
+    <label for="categoryid">CategoryId:</label>
+    <input type="number" id="categoryid" [(ngModel)]="newTransaction.categoryid" name="categoryid">
+
+    <button type="submit">Create</button>
+  </form>
+</div>
+
 <div class="container mx-auto p-4">
   <h1 class="text-2xl font-bold mb-4">Transactions</h1>
   <table class="min-w-full bg-white">
