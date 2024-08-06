@@ -1,9 +1,4 @@
-@if (authService.currentUser() === null) {
-<div>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/register">Register</a>
-</div>
-} @if (authService.currentUser()) {
+@if (authService.currentUser()) {
 <div>
   {{ authService.currentUser()?.username }}
   <span (click)="logout()">Logout</span>

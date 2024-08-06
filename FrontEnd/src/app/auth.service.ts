@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { AuthResponse, createClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
+import { Router } from '@angular/router';
 import { Observable, from } from 'rxjs';
 
 @Injectable({
@@ -10,8 +11,11 @@ export class AuthService {
   supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
   currentUser = signal<{ email: string; username: string } | null>(null);
 
+  constructor(private router: Router) {
+    this.checkAuthStatus();
+  }
+
   async register(email: string, password: string, firstName: string, lastName: string, username: string): Promise<void> {
-    console.log('Registering user with username:', username);
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password,
@@ -57,5 +61,18 @@ export class AuthService {
 
   logout(): void {
     this.supabase.auth.signOut();
+    this.router.navigate(['/login']);
+  }
+
+  private async checkAuthStatus(): Promise<void> {
+    const { data } = await this.supabase.auth.getSession();
+    if (!data.session) {
+      this.currentUser.set(null);
+    } else {
+      this.currentUser.set({
+        email: data.session.user.email ?? '', // Ensure email is a string
+        username: data.session.user.user_metadata['username'] ?? '' // Ensure username is a string
+      });
+    }
   }
 }

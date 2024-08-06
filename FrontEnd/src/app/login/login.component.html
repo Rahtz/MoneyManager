@@ -1,17 +1,41 @@
-<h1>Login</h1>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded shadow-md w-[500px]">
+    <h1 class="text-4xl font-bold mb-4">Log In</h1>
+    <h2 class="pb-4">Welcome back! Please enter your details</h2>
 
-@if (errorMessage) {
-<div>{{ errorMessage }}</div>
-}
+    <div *ngIf="errorMessage" class="text-red-500 mb-4">
+      {{ errorMessage }}
+    </div>
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <input type="text" placeholder="Email" formControlName="email" />
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <input
+          type="text"
+          placeholder="Email"
+          formControlName="email"
+          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <input
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+          class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div>
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer"
+        >
+          Sign In
+        </button>
+      </div>
+      <div>
+        <a>Don't have an account? <span routerLink="/register" class="text-blue-500 hover:underline hover:cursor-pointer">Register</span></a>
+      </div>
+    </form>
   </div>
-  <div>
-    <input type="password" placeholder="Password" formControlName="password" />
-  </div>
-  <div>
-    <button type="submit" [disabled]="form.invalid">Sign In</button>
-  </div>
-</form>
+</div>

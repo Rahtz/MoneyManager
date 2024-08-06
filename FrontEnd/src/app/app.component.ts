@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  router = inject(Router);
   authService = inject(AuthService);
   ngOnInit(): void {
     this.authService.supabase.auth.onAuthStateChange((event, session) => {
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
         });
       } else if (event === 'SIGNED_OUT') {
         this.authService.currentUser.set(null);
+        this.router.navigateByUrl('/');
       }
     });
   }
