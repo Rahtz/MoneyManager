@@ -9,7 +9,7 @@ import { Observable, from } from 'rxjs';
 })
 export class AuthService {
   supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-  currentUser = signal<{ email: string; username: string } | null>(null);
+  currentUser = signal<{ id:string; email: string; username: string } | null>(null);
 
   constructor(private router: Router) {
     this.checkAuthStatus();
@@ -70,6 +70,7 @@ export class AuthService {
       this.currentUser.set(null);
     } else {
       this.currentUser.set({
+        id: data.session.user.id,
         email: data.session.user.email ?? '', // Ensure email is a string
         username: data.session.user.user_metadata['username'] ?? '' // Ensure username is a string
       });

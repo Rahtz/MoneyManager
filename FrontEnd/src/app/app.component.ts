@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
     this.authService.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         this.authService.currentUser.set({
+          id: session?.user.id!,
           email: session?.user.email!,
           username:
             session?.user.identities?.at(0)?.identity_data?.['username'],
