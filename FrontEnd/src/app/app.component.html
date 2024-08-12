@@ -1,5 +1,8 @@
-<div *ngIf="authService.currentUser()">
-  <app-navbar></app-navbar>
+<div class="flex h-screen bg-black">
+  <div class="flex-1 p-4">
+    <div *ngIf="authService.currentUser()">
+      <app-navbar></app-navbar>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-<router-outlet></router-outlet>

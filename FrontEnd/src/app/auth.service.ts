@@ -14,6 +14,7 @@ export class AuthService {
   constructor(private router: Router) {
     this.checkAuthStatus();
   }
+  
 
   async register(email: string, password: string, firstName: string, lastName: string, username: string): Promise<void> {
     const { data, error } = await this.supabase.auth.signUp({
@@ -61,7 +62,7 @@ export class AuthService {
 
   logout(): void {
     this.supabase.auth.signOut();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   private async checkAuthStatus(): Promise<void> {
@@ -71,9 +72,14 @@ export class AuthService {
     } else {
       this.currentUser.set({
         id: data.session.user.id,
-        email: data.session.user.email ?? '', // Ensure email is a string
-        username: data.session.user.user_metadata['username'] ?? '' // Ensure username is a string
+        email: data.session.user.email ?? '',
+        username: data.session.user.user_metadata['username'] ?? ''
       });
     }
   }
+
+  getCurrentUser() {
+    return this.currentUser();
+  }
+
 }

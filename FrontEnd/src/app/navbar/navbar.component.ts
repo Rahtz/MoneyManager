@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -11,6 +11,13 @@ import { AuthService } from '../auth.service';
 })
 export class NavbarComponent {
   authService = inject(AuthService);
+  constructor(private router: Router) {}
+
+  isActive(path: string): boolean {
+    const currentRoute = this.router.url;
+    const isActive = currentRoute === path;
+    return isActive;
+  }
 
   logout(): void {
     this.authService.logout();

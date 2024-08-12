@@ -1,10 +1,17 @@
-<nav class="bg-white shadow-md p-4 flex justify-between items-center">
+<nav class="flex justify-between">
   <div class="text-xl font-bold">
-    <a routerLink="/home">MyApp</a>
+    <a class="text-white" routerLink="/home">MyApp</a>
   </div>
-  <div class="flex items-center">
-    <a routerLink="/transactions" class="mr-4 text-blue-500 hover:underline">Transactions</a>
-    <span class="mr-4">{{ authService.currentUser()?.username }}</span>
+  <div class="bg-light-black shadow-md h-auto w-auto flex justify-between items-center rounded-3xl">
+    <div class="flex items-center">
+      <a routerLink="/home" [ngClass]="{'bg-white text-black font-bold': isActive('/home')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/home') ? 'black' : 'white'">Dashboard</a>
+      <a routerLink="/dividends" [ngClass]="{'bg-white text-black font-bold': isActive('/dividends')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/dividends') ? 'black' : 'white'">Dividends</a>
+      <a routerLink="/cashflows" [ngClass]="{'bg-white text-black font-bold': isActive('/cashflows')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/cashflows') ? 'black' : 'white'">Cashflows</a>
+      <a routerLink="/transactions" [ngClass]="{'bg-white text-black font-bold': isActive('/transactions')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/transactions') ? 'black' : 'white'">Transactions</a>
+    </div>
+  </div>
+  <div>
+    <span class="mr-4 text-nav-text">{{ authService.currentUser()?.username }}</span>
     <span class="text-red-500 cursor-pointer" (click)="logout()">Logout</span>
   </div>
 </nav>
