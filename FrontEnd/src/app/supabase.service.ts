@@ -195,7 +195,7 @@ export class SupabaseService {
       .from('AccountValues')
       .select('AccountId, AccountValue, ValueDate, Accounts(Divisible, Type, PrimaryAccount)')
       .eq('userId', userId)
-      .gte('ValueDate', new Date(new Date().setMonth(new Date().getMonth() - 12)).toISOString())
+      .gte('ValueDate', new Date(new Date().setMonth(new Date().getMonth() -1 - 12)).toISOString())
       .order('ValueDate', { ascending: false });
 
     if (error) {

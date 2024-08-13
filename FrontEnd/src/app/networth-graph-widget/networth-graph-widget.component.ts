@@ -70,25 +70,88 @@ async ngAfterViewInit(): Promise<void> {
 initializeChart() {
   Chart.register(...registerables);
   const ctx = document.getElementById('networthChart') as HTMLCanvasElement;
-  if (ctx) {
-    // Reverse the MonthlyNetWorth array and create corresponding labels
-    const reversedNetWorth = [...this.MonthlyNetWorth].reverse();
-    const labels = reversedNetWorth.map((_, index) => `Month ${index + 1}`);
+  const networthValueElement = document.getElementById('networthValue') as HTMLHeadingElement;
 
-    console.log('initializeChart - MonthlyNetWorth:', reversedNetWorth); // Log the reversed array before creating the chart
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'Net Worth',
-          data: reversedNetWorth,
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1,
-          fill: false
-        }]
+  if (ctx) {
+    const chartContext = ctx.getContext('2d');
+    if (chartContext) {
+      // Create gradient
+      const gradient = chartContext.createLinearGradient(20, 20, 0, ctx.height);
+      gradient.addColorStop(0, 'rgba(75, 192, 192, 0.2)');
+      gradient.addColorStop(1, 'rgba(75, 192, 192, 0)');
+
+      // Reverse the MonthlyNetWorth array and create corresponding labels
+      const reversedNetWorth = [...this.MonthlyNetWorth].reverse();
+      const labels = reversedNetWorth.map((_, index) => `Month ${index + 1}`);
+
+// Set the initial value to the latest net worth
+const latestNetWorth = reversedNetWorth[reversedNetWorth.length - 1];
+networthValueElement.textContent = `${latestNetWorth.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
+
+console.log('initializeChart - MonthlyNetWorth:', reversedNetWorth); // Log the reversed array before creating the chart
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Net Worth',
+      data: reversedNetWorth,
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+      fill: true, // Fill the area under the line
+      backgroundColor: gradient, // Gradient color for the inside of the area
+      pointRadius: 3, // Add dots on every point
+      pointHitRadius: 10, // Increase the hit radius
+      pointHoverRadius: 10 // Increase the hover radius
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false // Remove the legend
+      },
+      tooltip: {
+        enabled: false,
+        callbacks: {
+          label: function(context) {
+            const value = context.raw;
+            return `$${value}`;
+          }
+        }
       }
-    });
+    },
+    scales: {
+      x: {
+        ticks: {
+          display: false // Hide X axis labels
+        },
+        grid: {
+          display: false // Hide X axis grid lines
+        }
+      },
+      y: {
+        ticks: {
+          display: false // Hide Y axis labels
+        },
+        grid: {
+          display: false // Hide Y axis grid lines
+        }
+      }
+    },
+    onHover: (event, chartElement) => {
+      if (chartElement.length) {
+        const index = chartElement[0].index;
+        const value = reversedNetWorth[index];
+        networthValueElement.textContent = `${value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
+      } else {
+        networthValueElement.textContent = `${latestNetWorth.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
+      }
+    }
+  }
+});
+    } else {
+      console.error('Failed to acquire 2D context for networthChart');
+    }
   } else {
     console.error('Failed to acquire context for networthChart');
   }

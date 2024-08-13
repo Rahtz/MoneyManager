@@ -9,6 +9,7 @@ module.exports = {
         'light-black': '#1d1d1d',
         'nav-text': '#595959',
         'nav-text-active': '#d7d7d7',
+        'lightBlackButtons': '#272727',
       },
       backgroundColor: {
         'custom-active': '#292929'
