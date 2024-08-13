@@ -243,7 +243,6 @@ export class SupabaseService {
     while (result.length < 12) {
       result.unshift(0);
     }
-    console.log(result);
     return result;
   }
 

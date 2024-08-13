@@ -1,10 +1,1 @@
-<div *ngIf="MonthlyNetWorth.length > 0; else noData">
-  <ul>
-    <li *ngFor="let netWorth of MonthlyNetWorth">
-      {{ netWorth }}
-    </li>
-  </ul>
-</div>
-<ng-template #noData>
-  <p>No data available.</p>
-</ng-template>
+<canvas id="networthChart"></canvas>
