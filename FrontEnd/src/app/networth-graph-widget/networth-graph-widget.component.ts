@@ -10,15 +10,14 @@ interface User {
 }
 
 @Component({
-  selector: 'app-networth-widget',
+  selector: 'app-networth-graph-widget',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './networth-widget.component.html',
+  templateUrl: './networth-graph-widget.component.html',
 })
-export class NetworthWidgetComponent implements OnInit {
+export class NetworthGraphWidgetComponent implements OnInit {
   authService = inject(AuthService);
-  netWorth: number = 0;
-  SecondaryNetWorth: number = 0;
+  MonthlyNetWorth: any[] = [];
 
   constructor(private supabaseService: SupabaseService) {}
 
@@ -36,8 +35,8 @@ export class NetworthWidgetComponent implements OnInit {
     if (user && typeof user.id === 'string') {
       const userId = await this.getUserIdFromAuthId(user.id);
       if (userId) {
-          this.netWorth = await this.supabaseService.getNetWorth(userId);
-          this.SecondaryNetWorth = await this.supabaseService.getSecondaryNetWorth(userId);
+        this.MonthlyNetWorth = await this.supabaseService.getMonthlyNetWorth(userId);
+        console.log('MonthlyNetWorth:', this.MonthlyNetWorth); // Log the MonthlyNetWorth array
       } else {
         console.error('User ID not found in users table');
       }

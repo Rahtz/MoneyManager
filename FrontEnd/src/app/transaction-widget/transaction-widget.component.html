@@ -14,9 +14,9 @@
     <tbody>
       <tr *ngFor="let transaction of transactions | slice:0:5" class="text-white hover:bg-custom-active hover:rounded-2xl">
         <td>{{ transaction.Description }}</td>
-        <td class="text-xs">{{ transaction.TransactionDate }}</td>
+        <td class="text-xs">{{ transaction.TransactionDate}}</td>
         <td class="text-xs">{{ transaction.CategoryId }}</td>
-        <td class="text-3xl">{{ transaction.Amount }}</td>
+        <td class="text-3xl">{{ transaction.Amount | currency }}</td>
       </tr>
     </tbody>
   </table>
