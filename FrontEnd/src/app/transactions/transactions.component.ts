@@ -28,6 +28,9 @@ export class TransactionsComponent implements OnInit {
   authService = inject(AuthService);
   supabaseService = inject(SupabaseService);
   transactions: any[] = [];
+  paginatedTransactions: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
   newTransaction = {
     amount: 0,
     date: '',
@@ -47,6 +50,7 @@ export class TransactionsComponent implements OnInit {
           console.error('Error fetching transactions:', error);
         } else {
           this.transactions = data;
+          this.getPaginatedTransactions();
         }
       } else {
         console.error('User ID not found in users table');
@@ -54,6 +58,17 @@ export class TransactionsComponent implements OnInit {
     } else {
       console.error('User ID is missing or not a string');
     }
+  }
+
+  getPaginatedTransactions(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedTransactions = this.transactions.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+    this.getPaginatedTransactions();
   }
 
   async getUserIdFromAuthId(authId: string): Promise<string | null> {

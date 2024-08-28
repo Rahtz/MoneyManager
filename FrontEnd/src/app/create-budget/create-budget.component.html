@@ -1,0 +1,21 @@
+<form [formGroup]="budgetForm" (ngSubmit)="onSubmit()" class="space-y-4 p-4 bg-gray-800 rounded-lg">
+  <div class="flex flex-col">
+    <label for="BudgetDate" class="text-white mb-2">Budget Date:</label>
+    <input id="BudgetDate" formControlName="BudgetDate" type="date" class="p-2 rounded bg-gray-700 text-white">
+  </div>
+  <div class="flex flex-col">
+    <label for="CategoryId" class="text-white mb-2">Category:</label>
+    <select id="CategoryId" formControlName="CategoryId" class="p-2 rounded bg-gray-700 text-white">
+      <option *ngFor="let category of categories" [value]="category.id">{{ category.CategoryName }}</option>
+    </select>
+  </div>
+  <div class="flex flex-col">
+    <label for="BudgetAmount" class="text-white mb-2">Budget Amount:</label>
+    <input id="BudgetAmount" formControlName="BudgetAmount" type="number" class="p-2 rounded bg-gray-700 text-white">
+  </div>
+  <div class="flex flex-col">
+    <label for="Occurrence" class="text-white mb-2">Occurrence:</label>
+    <input id="Occurrence" formControlName="Occurrence" type="text" class="p-2 rounded bg-gray-700 text-white">
+  </div>
+  <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Create Budget</button>
+</form>

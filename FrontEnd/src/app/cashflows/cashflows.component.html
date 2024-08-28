@@ -1,1 +1,94 @@
-<p>cashflows works!</p>
+<style>
+  /* For WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #333;
+  }
+
+  /* Hover effect for entire row */
+  tr:hover td {
+    background-color: #4a5568 !important; /* Tailwind CSS color for gray-600 */
+  }
+</style>
+
+<div class="flex flex-col w-full h-[95%] mt-2">
+  <div class="w-full h-1/10 flex items-center">
+    <h1 class="text-white text-5xl">Your <span class="text-gray-500">Cashflows</span></h1>
+  </div>
+  <div class="w-[100%] h-[80%] bg-light-black rounded-xl border border-gray-700 p-2 mt-4">
+    <div class="flex mb-4">
+      <button class="text-white bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded" (click)="switchPreviousYear()"><i class="fa-solid fa-arrow-left"></i></button>
+      <h1 class="text-white">{{selectedYear}}</h1>
+      <button class="text-white bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded" (click)="switchNextYear()"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+    <div class="overflow-x-auto overflow-y-auto h-[90%] w-[100%] rounded-xl">
+      <table class="min-w-full h-full text-white rounded-xl">
+        <thead>
+          <tr class="bg-light-black">
+            <th class="px-4 py-2 text-left sticky top-0 left-0 bg-light-black z-20">Category</th>
+            <th *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="px-4 py-2 text-left bg-light-black sticky top-0">
+              <div class="flex flex-col">
+                <div class="flex justify-center w-full">
+                  <span>{{ month }}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>{{selectedYear - 1}}</span>
+                  <span>{{selectedYear}}</span>
+                </div>
+              </div>
+            </th>
+            <th class="px-4 py-2 text-left sticky top-0 right-0 bg-light-black z-40">
+              <div class="flex">
+                <div class="px-4 py-2">Total {{selectedYear - 1}}</div>
+                <div class="px-4 py-2">Total {{selectedYear}}</div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tableData" class="hover:bg-gray-600">
+            <td class="border-t border-gray-700 px-4 py-2 sticky left-0 bg-light-black z-10">{{ row['CategoryName'] }}</td>
+            <td *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="border-t border-gray-700 px-6 py-2">
+              <div class="flex justify-between items-center w-[130px]">
+                <span class="text-xs">{{ row[month + 'PreviousYear'] === 0 ? '-' : (row[month + 'PreviousYear'] | currency) }}</span>
+                <span>{{ row[month + 'CurrentYear'] === 0 ? '-' : (row[month + 'CurrentYear'] | currency) }}</span>
+              </div>
+            </td>
+            <td class="flex items-center border-t border-gray-700 sticky right-0 bg-light-black z-20">
+              <div class="px-4 py-2 z-20 w-[100%] text-xs">{{ row['TotalPreviousYear'] === 0 ? '-' : (row['TotalPreviousYear'] | currency) }}</div>
+              <div class="px-4 py-2 z-20 w-[100%]">{{ row['TotalCurrentYear'] === 0 ? '-' : (row['TotalCurrentYear'] | currency) }}</div>
+            </td>
+          </tr>
+          <tr class="sticky bottom-0 z-20">
+            <td class="px-4 py-2 font-bold sticky left-0 bg-light-black z-20">Total</td>
+            <td *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="px-4 py-2 bg-light-black">
+              <div class="flex justify-between">
+                <span>{{ totals[month + 'PreviousYear'] === 0 ? '-' : (totals[month + 'PreviousYear'] | currency) }}</span>
+                <span>{{ totals[month + 'CurrentYear'] === 0 ? '-' : (totals[month + 'CurrentYear'] | currency) }}</span>
+              </div>
+            </td>
+            <td class="flex sticky right-0 z-20">
+              <div class="px-4 py-2 font-bold bg-light-black">{{ totals['TotalPreviousYear'] === 0 ? '-' : (totals['TotalPreviousYear'] | currency) }}</div>
+              <div class="px-4 py-2 font-bold bg-light-black">{{ totals['TotalCurrentYear'] === 0 ? '-' : (totals['TotalCurrentYear'] | currency) }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

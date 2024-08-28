@@ -21,6 +21,7 @@ export class NetworthGraphWidgetComponent implements OnInit, AfterViewInit {
   MonthlyNetWorth: any[] = [];
   netWorthData: number[] = [];
 
+
   constructor(private supabaseService: SupabaseService) {}
 
   async getUserIdFromAuthId(authId: string): Promise<string | null> {
@@ -44,7 +45,6 @@ export class NetworthGraphWidgetComponent implements OnInit, AfterViewInit {
     } else {
       console.error('User ID is missing or not a string');
     }
-    console.log('ngOnInit - MonthlyNetWorth:', this.MonthlyNetWorth);
   }
 
 async ngAfterViewInit(): Promise<void> {
@@ -59,7 +59,6 @@ async ngAfterViewInit(): Promise<void> {
   } else {
     console.error('User ID is missing or not a string');
   }
-  console.log('ngOnInit - MonthlyNetWorth:', this.MonthlyNetWorth);
   if (this.MonthlyNetWorth && this.MonthlyNetWorth.length > 0) {
     this.initializeChart();
 } else {
@@ -88,7 +87,6 @@ initializeChart() {
 const latestNetWorth = reversedNetWorth[reversedNetWorth.length - 1];
 networthValueElement.textContent = `${latestNetWorth.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`;
 
-console.log('initializeChart - MonthlyNetWorth:', reversedNetWorth); // Log the reversed array before creating the chart
 const chart = new Chart(ctx, {
   type: 'line',
   data: {

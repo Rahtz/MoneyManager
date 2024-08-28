@@ -1,0 +1,109 @@
+<div class="flex flex-col w-full h-[95%] mt-2">
+  <div class="w-[100%] h-[10%] flex items-center">
+    <h1 class="text-white text-5xl">Your <span class="text-gray-500">Budgets</span></h1>
+  </div>
+<div class="flex flex-col space-y-[10px] h-full w-full">
+  <div class="flex h-[95%] mt-[10px] w-full">
+    <div class="flex flex-col w-[70%] h-full">
+      <div class="h-[50%] w-full p-4">
+        <div class="bg-light-black rounded-xl h-full border border-gray-700">
+          <button (click)="navigateToBudgets()" class="text-white bg-blue-500 hover:bg-blue-700 p-2 rounded">
+            Go to Budgets
+          </button>
+        </div>
+      </div>
+      <div class="h-[50%] w-full p-4">
+        <div class="bg-light-black rounded-xl h-full border border-gray-700">
+          <app-transaction-widget></app-transaction-widget>
+        </div>
+      </div>
+    </div>
+    <div class="flex w-[30%] h-full">
+      <div class="grid grid-cols-1 gap-[5px] w-full h-[100%] p-4 overflow-y-auto">
+        <h1 class="text-white text-lg col-span-2">Monthly Budgets</h1>
+        <div class="col-span-2">
+          <div class="grid grid-cols-1 gap-[5px]">
+            <div class="text-white" *ngFor="let transaction of budgets">
+              <div class="flex flex-col justify-between h-full p-4 rounded-xl bg-light-black border border-gray-700">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h1>{{ transaction.Category.CategoryName }}</h1>
+                    <h1>{{ transaction.BudgetAmount | currency }}</h1>
+                  </div>
+                  <div class="flex space-x-2">
+                    <button (click)="editBudget(transaction)" class="text-blue-500 hover:text-blue-700 text-xs">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="deleteBudget(transaction.id)" class="text-red-500 hover:text-red-700 text-xs">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="flex justify-between">
+                  <div class="relative w-[65%] h-4 bg-gray-300 rounded">
+                    <div
+                      class="absolute top-0 left-0 h-4 rounded flex items-center justify-center text-xs text-white"
+                      [ngClass]="{
+                        'bg-green-500':
+                          transaction.totalAmount * -1 <= transaction.BudgetAmount,
+                        'bg-red-500':
+                          transaction.totalAmount * -1 > transaction.BudgetAmount
+                      }"
+                      [style.width.%]="getProgressWidth(transaction)"
+                    >
+                      {{ getProgressPercentage(transaction) | number: '1.0-0' }}%
+                    </div>
+                  </div>
+                  <h1 class="text-xs">{{ transaction.BudgetAmount - (transaction.totalAmount * -1) | currency }} Left</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-[5px] w-full h-[100%] p-4">
+        <h1 class="text-white text-lg col-span-2">Yearly Budgets</h1>
+        <div class="col-span-2">
+          <div class="grid grid-cols-1 gap-[5px]">
+            <div class="text-white" *ngFor="let transaction of yearlyBudgets">
+              <div class="flex flex-col justify-between h-full p-4 rounded-xl bg-light-black border border-gray-700">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <h1>{{ transaction.Category.CategoryName }}</h1>
+                    <h1>{{ transaction.BudgetAmount | currency }}</h1>
+                  </div>
+                  <div class="flex space-x-2">
+                    <button (click)="editBudget(transaction)" class="text-blue-500 hover:text-blue-700 text-xs">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="deleteBudget(transaction.id)" class="text-red-500 hover:text-red-700 text-xs">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="flex justify-between">
+                  <div class="relative w-[65%] h-4 bg-gray-300 rounded">
+                    <div
+                      class="absolute top-0 left-0 h-4 rounded flex items-center justify-center text-xs text-white"
+                      [ngClass]="{
+                        'bg-green-500':
+                          transaction.totalAmount * -1 <= transaction.BudgetAmount,
+                        'bg-red-500':
+                          transaction.totalAmount * -1 > transaction.BudgetAmount
+                      }"
+                      [style.width.%]="getProgressWidth(transaction)"
+                    >
+                      {{ getProgressPercentage(transaction) | number: '1.0-0' }}%
+                    </div>
+                  </div>
+                  <h1 class="text-xs">{{ transaction.BudgetAmount - (transaction.totalAmount * -1) | currency }} Left</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

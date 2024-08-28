@@ -1,10 +1,13 @@
 <nav class="flex justify-between">
   <div class="text-xl font-bold">
-    <a class="text-white" routerLink="/home">MyApp</a>
+    <a class="text-white" routerLink="/home">
+      <img src="../../assets/logo.png" alt="MyApp Logo" class="w-[120px]">
+    </a>
   </div>
   <div class="bg-light-black shadow-md h-auto w-auto flex justify-between items-center rounded-3xl">
     <div class="flex items-center">
       <a routerLink="/home" [ngClass]="{'bg-white text-black font-bold': isActive('/home')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/home') ? 'black' : 'white'">Dashboard</a>
+      <a routerLink="/budgets" [ngClass]="{'bg-white text-black font-bold': isActive('/budgets')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/budgets') ? 'black' : 'white'">Budgets</a>
       <a routerLink="/dividends" [ngClass]="{'bg-white text-black font-bold': isActive('/dividends')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/dividends') ? 'black' : 'white'">Dividends</a>
       <a routerLink="/cashflows" [ngClass]="{'bg-white text-black font-bold': isActive('/cashflows')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/cashflows') ? 'black' : 'white'">Cashflows</a>
       <a routerLink="/transactions" [ngClass]="{'bg-white text-black font-bold': isActive('/transactions')}" class="text-white py-3 px-8 rounded-3xl text-sm" [style.color]="isActive('/transactions') ? 'black' : 'white'">Transactions</a>

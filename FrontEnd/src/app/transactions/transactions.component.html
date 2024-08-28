@@ -1,4 +1,4 @@
-<div>
+<!-- <div class="bg-light-black text-white">
   <h2>Create Transaction</h2>
   <form (ngSubmit)="createTransaction()">
     <label for="amount">Amount:</label>
@@ -15,11 +15,10 @@
 
     <button type="submit">Create</button>
   </form>
-</div>
-
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-4">Transactions</h1>
-  <table class="min-w-full bg-white">
+</div> -->
+<div class="h-[100%] w-[100%]">
+<div class="flex flex-col justify-between w-[100%] h-[60%] container mx-auto p-4 mt-[50px] bg-light-black rounded-xl">
+  <table class="w-[100%] h-[90%] bg-light-black text-white">
     <thead>
       <tr>
         <th class="py-2 px-4 border-b">Transaction Date</th>
@@ -30,15 +29,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let transaction of transactions">
-        <td class="py-2 px-4 border-b">{{ transaction.TransactionDate }}</td>
-        <td class="py-2 px-4 border-b">{{ transaction.Description }}</td>
-        <td class="py-2 px-4 border-b">{{ transaction.Amount }}</td>
-        <td class="py-2 px-4 border-b">{{ transaction.CategoryId }}</td>
-        <td class="py-2 px-4 border-b">
+      <tr *ngFor="let transaction of paginatedTransactions">
+        <td class="py-1 px-4 border-b">{{ transaction.TransactionDate }}</td>
+        <td class="py-1 px-4 border-b">{{ transaction.Description }}</td>
+        <td class="py-1 px-4 border-b">{{ transaction.Amount }}</td>
+        <td class="py-1 px-4 border-b">{{ transaction.CategoryId }}</td>
+        <td class="py-1 px-4 border-b">
           <button (click)="deleteTransaction(transaction)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+  <div class="text-white">
+    <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }}</span>
+    <button (click)="changePage(currentPage + 1)" [disabled]="currentPage * itemsPerPage >= transactions.length">Next</button>
+  </div>
+</div>
+
 </div>
