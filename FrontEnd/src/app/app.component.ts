@@ -16,14 +16,18 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent implements OnInit {
   router = inject(Router);
   authService = inject(AuthService);
+
   ngOnInit(): void {
+    // Check authentication status on initialization
+    this.authService.checkAuthStatus();
+
+    // Listen for authentication state changes
     this.authService.supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         this.authService.currentUser.set({
           id: session?.user.id!,
           email: session?.user.email!,
-          username:
-            session?.user.identities?.at(0)?.identity_data?.['username'],
+          username: session?.user.identities?.at(0)?.identity_data?.['username'],
         });
       } else if (event === 'SIGNED_OUT') {
         this.authService.currentUser.set(null);

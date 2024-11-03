@@ -1,0 +1,18 @@
+<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center" *ngIf="isVisible">
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+    <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-between items-center">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Transactions</h3>
+      <button (click)="closeModal()" class="text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Close</span>
+        &times;
+      </button>
+    </div>
+    <div class="px-4 py-5 sm:p-6">
+      <ul class="divide-y divide-gray-200">
+        <li *ngFor="let transaction of transactions" class="py-4">
+          {{ transaction }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

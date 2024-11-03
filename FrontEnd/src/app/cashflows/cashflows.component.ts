@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../supabase.service';
 import { AuthService } from '../auth.service';
+import { TransactionModalComponent } from '../transaction-modal/transaction-modal.component';
 
 interface User {
   email: string;
@@ -12,7 +13,7 @@ interface User {
 @Component({
   selector: 'app-cashflows',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TransactionModalComponent],
   templateUrl: './cashflows.component.html',
 })
 export class CashflowsComponent implements OnInit {
@@ -22,6 +23,8 @@ export class CashflowsComponent implements OnInit {
   tableData: any[] = [];
   selectedYear: number = new Date().getFullYear(); // Initialize with the current year
   totals: { [key: string]: number } = {};
+  valueTransactions: any[] = [];
+  isModalVisible: boolean = false;
 
   constructor(private supabaseService: SupabaseService) {}
 
@@ -70,9 +73,6 @@ export class CashflowsComponent implements OnInit {
     const currentYearTransactions = this.filterDataByYear(this.selectedYear);
     const previousYearTransactions = this.filterDataByYear(this.selectedYear - 1);
 
-    console.log('Current Year Transactions:', currentYearTransactions);
-    console.log('Previous Year Transactions:', previousYearTransactions);
-
     this.tableData = this.categories.map(category => {
       const row: { [key: string]: any } = { CategoryName: category.CategoryName };
       let categoryTotalCurrentYear = 0;
@@ -99,9 +99,6 @@ export class CashflowsComponent implements OnInit {
     // Calculate grand totals
     this.totals['TotalCurrentYear'] = this.tableData.reduce((sum, row) => sum + row['TotalCurrentYear'], 0);
     this.totals['TotalPreviousYear'] = this.tableData.reduce((sum, row) => sum + row['TotalPreviousYear'], 0);
-
-    console.log('Table Data:', this.tableData);
-    console.log('Totals:', this.totals);
   }
 
   switchPreviousYear() {
@@ -113,4 +110,26 @@ export class CashflowsComponent implements OnInit {
     this.selectedYear += 1; // Increment the year
     this.processData(); // Re-process the data for the new year
   }
+
+  openModal(transactions: any[]) {
+    console.log('Opening modal with transactions:', transactions); // Debugging log
+
+    // Filter transactions for the specific value pressed
+    this.valueTransactions = transactions.filter(transaction => {
+      // Add your filtering logic here
+      // For example, filter by year and month for a specific category
+      // Assuming transaction has properties 'year', 'month', and 'category'
+      const year = this.selectedYear; // Replace with the actual year value
+      // const month = this.selectedMonth; // Replace with the actual month value
+      // const category = this.selectedCategory; // Replace with the actual category value
+
+      // return transaction.year === year && transaction.month === month && transaction.category === category;
+    });
+
+    console.log('Filtered value transactions:', this.valueTransactions); // Debugging log
+
+    this.transactions = transactions;
+    this.isModalVisible = true;
+  }
 }
+

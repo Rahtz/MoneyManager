@@ -30,8 +30,8 @@
   <div class="w-full h-1/10 flex items-center">
     <h1 class="text-white text-5xl">Your <span class="text-gray-500">Cashflows</span></h1>
   </div>
-  <div class="w-[100%] h-[80%] bg-light-black rounded-xl border border-gray-700 p-2 mt-4">
-    <div class="flex mb-4">
+  <div class="w-[100%] h-[90%] bg-light-black rounded-xl border border-gray-700 p-2 mt-4">
+    <div class="flex mb-4 w-full justify-center items-center">
       <button class="text-white bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded" (click)="switchPreviousYear()"><i class="fa-solid fa-arrow-left"></i></button>
       <h1 class="text-white">{{selectedYear}}</h1>
       <button class="text-white bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded" (click)="switchNextYear()"><i class="fa-solid fa-arrow-right"></i></button>
@@ -39,7 +39,7 @@
     <div class="overflow-x-auto overflow-y-auto h-[90%] w-[100%] rounded-xl">
       <table class="min-w-full h-full text-white rounded-xl">
         <thead>
-          <tr class="bg-light-black">
+          <tr class="bg-light-black border border-light-black -mt-[10px]">
             <th class="px-4 py-2 text-left sticky top-0 left-0 bg-light-black z-20">Category</th>
             <th *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="px-4 py-2 text-left bg-light-black sticky top-0">
               <div class="flex flex-col">
@@ -63,16 +63,16 @@
         <tbody>
           <tr *ngFor="let row of tableData" class="hover:bg-gray-600">
             <td class="border-t border-gray-700 px-4 py-2 sticky left-0 bg-light-black z-10">{{ row['CategoryName'] }}</td>
-            <td *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="border-t border-gray-700 px-6 py-2">
-              <div class="flex justify-between items-center w-[130px]">
-                <span class="text-xs">{{ row[month + 'PreviousYear'] === 0 ? '-' : (row[month + 'PreviousYear'] | currency) }}</span>
-                <span>{{ row[month + 'CurrentYear'] === 0 ? '-' : (row[month + 'CurrentYear'] | currency) }}</span>
-              </div>
-            </td>
-            <td class="flex items-center border-t border-gray-700 sticky right-0 bg-light-black z-20">
-              <div class="px-4 py-2 z-20 w-[100%] text-xs">{{ row['TotalPreviousYear'] === 0 ? '-' : (row['TotalPreviousYear'] | currency) }}</div>
-              <div class="px-4 py-2 z-20 w-[100%]">{{ row['TotalCurrentYear'] === 0 ? '-' : (row['TotalCurrentYear'] | currency) }}</div>
-            </td>
+<td *ngFor="let month of ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" class="border-t border-gray-700 px-6 py-2">
+  <div class="flex justify-between items-center w-[130px]">
+    <span class="text-xs">{{ row[month + 'PreviousYear'] === 0 ? '-' : (row[month + 'PreviousYear'] | currency) }}</span>
+    <span class="cursor-pointer" (click)="openModal(transactions)">{{ row[month + 'CurrentYear'] === 0 ? '-' : (row[month + 'CurrentYear'] | currency) }}</span>
+  </div>
+</td>
+<td class="flex items-center border-t border-gray-700 sticky right-0 bg-light-black z-20 -mt-[1px]">
+  <div class="px-4 py-2 z-20 w-[100%] text-xs">{{ row['TotalPreviousYear'] === 0 ? '-' : (row['TotalPreviousYear'] | currency) }}</div>
+  <div class="px-4 py-2 z-20 w-[100%] cursor-pointer" (click)="openModal(row['TotalCurrentYearTransactions'])">{{ row['TotalCurrentYear'] === 0 ? '-' : (row['TotalCurrentYear'] | currency) }}</div>
+</td>
           </tr>
           <tr class="sticky bottom-0 z-20">
             <td class="px-4 py-2 font-bold sticky left-0 bg-light-black z-20">Total</td>
@@ -90,5 +90,6 @@
         </tbody>
       </table>
     </div>
+    <app-transaction-modal [transactions]="transactions" [isVisible]="isModalVisible"></app-transaction-modal>
   </div>
 </div>

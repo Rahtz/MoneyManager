@@ -73,6 +73,13 @@ export class SupabaseService {
     return { data, error };
   }
 
+  async createTransactions(userId: string, transactions: any[]) {
+    const { data, error } = await this.supabase
+      .from('Transactions')
+      .insert(transactions.map(transaction => ({ ...transaction, userId: userId })));
+    return { data, error };
+  }
+
   async deleteTransaction(
     transactionId: string
   ): Promise<{ data: any; error: any }> {

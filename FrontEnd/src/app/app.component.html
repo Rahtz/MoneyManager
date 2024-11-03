@@ -1,6 +1,6 @@
 <div class="flex h-screen bg-black">
   <div class="flex-1 p-4 overflow-x-auto">
-    <div *ngIf="authService.currentUser()">
+    <div *ngIf="authService.getCurrentUser() !== null">
       <app-navbar></app-navbar>
     </div>
     <router-outlet></router-outlet>

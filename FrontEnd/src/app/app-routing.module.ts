@@ -8,6 +8,7 @@ import { DividendsComponent } from './dividends/dividends.component';
 import { CashflowsComponent } from './cashflows/cashflows.component';
 import { BudgetsComponent } from './budgets/budgets.component';
 import { CreateBudgetComponent } from './create-budget/create-budget.component';
+import { CreateTransactionsComponent } from './create-transactions/create-transactions.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'cashflows', component: CashflowsComponent },
   { path: 'budgets', component: BudgetsComponent },
   { path: 'createbudget', component: CreateBudgetComponent },
+  { path: 'createtransactions', component: CreateTransactionsComponent },
 ];
 
 export const appRoutingProviders = [
